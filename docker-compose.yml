@@ -25,7 +25,7 @@ services:
       - xxl_job_net
 
   admin:
-    image: xuxueli/xxl-job-admin:2.0.2
+    image: xuxueli/xxl-job-admin:2.2.0
     restart: always
     hostname: admin
     container_name: xxl_job
