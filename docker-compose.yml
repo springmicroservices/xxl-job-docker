@@ -6,24 +6,22 @@ services:
     hostname: mysql
     container_name: xxl_job_db
     ports:
-      - 28889:3306
+      - 3306:3306
     volumes:
       #mysql数据库挂载到host物理机目录/e/docker/mysql/data/db
       - "./data:/var/lib/mysql"
       - "./init:/docker-entrypoint-initdb.d"
     environment:
-      MYSQL_DATABASE: xxl-job
+      MYSQL_DATABASE: xxl_job
       MYSQL_ROOT_PASSWORD: 123456 #root管理员用户密码
     command:
       [
         "--character-set-server=utf8mb4",
         "--collation-server=utf8mb4_unicode_ci",
       ]
-    networks:
-      - xxl_job_net
 
   admin:
-    image: xuxueli/xxl-job-admin:2.0.2
+    image: xuxueli/xxl-job-admin:2.1.2
     restart: always
     hostname: admin
     container_name: xxl_job
@@ -34,12 +32,8 @@ services:
     volumes:
       - "./tmp:/data/applogs"
     environment:
-      - spring.datasource.url=jdbc:mysql://mysql:3306/xxl-job?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai
+      - spring.datasource.url=jdbc:mysql://mysql:3306/xxl_job?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai
+      - spring.datasource.username=root
       - spring.datasource.password=123456
     depends_on:
       - mysql
-    networks:
-      - xxl_job_net
-networks:
-  xxl_job_net:
-    driver: bridge
